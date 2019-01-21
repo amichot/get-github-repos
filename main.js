@@ -1,5 +1,6 @@
 function displayResults(responseJson, handle) {
   $('#js-results-list').empty();
+  $('#js-error-message').empty();
   responseJson.forEach(repo => {
     $("#js-results-list").append(
       `<li><h3><a href=https://github.com/${handle}/${repo.name} target="_blank">${repo.name}</a></h3></li>`
@@ -20,7 +21,7 @@ function getRepos(handle) {
 		})
 		.then(responseJson => displayResults(responseJson, handle))
 		.catch(err => {
-			$("js-error-message").text(`Something went wrong: ${err.message}`);
+			$("#js-error-message").text("Something went wrong: handle not found");
 		});
 }
 
@@ -33,3 +34,4 @@ function watchForm() {
 }
 
 watchForm()
+
