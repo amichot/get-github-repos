@@ -1,5 +1,11 @@
-function displayResults(responseJson) {
-
+function displayResults(responseJson, handle) {
+  $('#js-results-list').empty();
+  responseJson.forEach(repo => {
+    $("#js-results-list").append(
+      `<li><h3><a href=https://github.com/${handle}/${repo.name} target="_blank">${repo.name}</a></h3></li>`
+    )
+  });
+  $('#results').removeClass('hidden');
 }
 
 function getRepos(handle) {
@@ -12,17 +18,16 @@ function getRepos(handle) {
 			}
 			throw new Error(response.statusText);
 		})
-		.then(responseJson => console.log(responseJson))
+		.then(responseJson => displayResults(responseJson, handle))
 		.catch(err => {
 			$("js-error-message").text(`Something went wrong: ${err.message}`);
 		});
 }
 
 function watchForm() {
-  console.log("watchForm is Running")
-	$("js-form").on("submit", event => {
+	$("form").submit(event => {
 		event.preventDefault();
-		const userInput = $("js-github-handle").val();
+		const userInput = $("#js-github-handle").val();
 		getRepos(userInput);
 	});
 }
